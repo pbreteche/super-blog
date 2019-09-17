@@ -3,12 +3,17 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PublicationRepository")
  */
 class Publication
 {
+    const ETAT_BROUILLON = 'brouillon';
+    const ETAT_PUBLIE = 'publié';
+    const ETAT_DEPRECIE = 'déprécié';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -18,11 +23,13 @@ class Publication
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $auteur;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
      */
     private $contenu;
 
@@ -33,13 +40,29 @@ class Publication
 
     /**
      * @ORM\Column(type="string", length=32)
+     * @Assert\Choice(callback="getEtats")
      */
     private $etat;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $titre;
+
+    public static function getEtats() {
+        return [
+            self::ETAT_BROUILLON,
+            self::ETAT_PUBLIE,
+            self::ETAT_DEPRECIE,
+        ];
+    }
+
+    public function __construct()
+    {
+
+        $this->etat = self::ETAT_BROUILLON;
+    }
 
     public function getId(): ?int
     {

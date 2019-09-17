@@ -40,7 +40,6 @@ class PublicationController extends AbstractController
     public function nouveau(Request $request)
     {
         $publication = new Publication();
-        $publication->setEtat('brouillon');
 
         $form = $this->createForm(PublicationType::class, $publication);
 
