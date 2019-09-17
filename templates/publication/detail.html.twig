@@ -8,7 +8,10 @@
     <h1>Mon article</h1>
     <div>Publié par {{ publication.auteur }} le: {{ publication.publieeLe | date('d/m/Y - H:i:s') }}</div>
     <div>
+        {% autoescape false %}
         {{ publication.contenu }}
+        {% endautoescape %}
+        {{ publication.contenu | raw }}
     </div>
 </article>
 {% endblock %}
