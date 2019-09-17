@@ -5,7 +5,12 @@
     <ul>
         {% for publication in publications %}
         <li>
-            <a href="{{ path('app_publication_detail', {id: publication.id}) }}">{{ publication.auteur }} - {{ publication.publieeLe | date('d/m/Y') }}</a>
+            <a href="{{ path('app_publication_detail', {id: publication.id}) }}">
+                {{ publication.titre }}
+            </a>
+            <span>
+                {{ publication.auteur }} - {{ publication.publieeLe | date('d/m/Y') }}
+            </span>
         </li>
         {% endfor %}
     </ul>
