@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<nav>
+    <ul>
+        {% for publication in publications %}
+        <li>
+            <a href="{{ path('app_publication_detail', {id: publication.id}) }}">{{ publication.auteur }} - {{ publication.publieeLe | date('d/m/Y') }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</nav>
+{% endblock %}

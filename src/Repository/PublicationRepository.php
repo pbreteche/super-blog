@@ -19,6 +19,18 @@ class PublicationRepository extends ServiceEntityRepository
         parent::__construct($registry, Publication::class);
     }
 
+    /**
+     * @return Publication[]
+     */
+    public function findPubliees(): array
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT p FROM '.Publication::class.' p '
+            .'WHERE p.etat = \'publie\' '
+            .'ORDER BY p.publieeLe DESC'
+        )->getResult();
+    }
+
     // /**
     //  * @return Publication[] Returns an array of Publication objects
     //  */
