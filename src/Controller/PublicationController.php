@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Publication;
+use App\Form\PublicationType;
 use App\Repository\PublicationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,11 +42,7 @@ class PublicationController extends AbstractController
         $publication = new Publication();
         $publication->setEtat('brouillon');
 
-        $form = $this->createFormBuilder($publication)
-            ->add('titre')
-            ->add('contenu')
-            ->add('auteur')
-            ->getForm();
+        $form = $this->createForm(PublicationType::class, $publication);
 
         $form->handleRequest($request);
 
@@ -53,6 +50,8 @@ class PublicationController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($publication);
             $entityManager->flush();
+
+            $this->addFlash('succes', 'Merci de votre contribution!');
 
             return $this->redirectToRoute('app_publication_detail', [
                 'id' => $publication->getId()
