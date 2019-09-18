@@ -48,7 +48,7 @@ class PublicationRepository extends ServiceEntityRepository
     }
     */
 
-    /*
+
     public function findOneBySomeField($value): ?Publication
     {
         return $this->createQueryBuilder('p')
@@ -58,7 +58,6 @@ class PublicationRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
 
     /**
      * @return Publication[]
@@ -70,5 +69,21 @@ class PublicationRepository extends ServiceEntityRepository
             .'WHERE p.etat = \'brouillon\' '
             .'ORDER BY p.publieeLe DESC'
         )->getResult();
+    }
+
+    /**
+     * @return Publication[]
+     */
+    public function findMemeAuteur(Publication $publication) {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.ecritPar = :auteur')
+            ->andWhere('p <> :publication')
+            ->orderBy('p.publieeLe', 'DESC')
+            ->getQuery()
+            ->setParameters([
+                'auteur' => $publication->getEcritPar(),
+                'publication' => $publication
+            ])
+            ->getResult();
     }
 }

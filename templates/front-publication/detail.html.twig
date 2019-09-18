@@ -11,5 +11,14 @@
         {{ publication.contenu | raw }}
     </div>
 </article>
+
+    <nav>
+        <h1>Du même auteur</h1>
+        {% for publi in memeAuteur %}
+            <a href="{{ path('app_frontpublication_detail', {id: publi.id}) }}">
+                {{ publi.titre }}
+            </a>
+        {% endfor %}
+    </nav>
 {% endblock %}
 
