@@ -9,7 +9,7 @@
                 {{ publication.titre }}
             </a>
             <span>
-                {{ publication.auteur }} - {{ publication.publieeLe | date('d/m/Y') }}
+                {{ publication.ecritPar.nom }} - {{ publication.publieeLe | date('d/m/Y') }}
             </span>
         </li>
         {% endfor %}

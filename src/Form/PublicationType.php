@@ -14,7 +14,9 @@ class PublicationType extends AbstractType
         $builder
             ->add('titre')
             ->add('contenu')
-            ->add('auteur')
+            ->add('ecritPar', null, [
+                'choice_label' => 'nom',
+            ])
         ;
     }
 

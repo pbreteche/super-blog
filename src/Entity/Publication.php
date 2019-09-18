@@ -22,12 +22,6 @@ class Publication
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
-     */
-    private $auteur;
-
-    /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank
      */
@@ -50,6 +44,12 @@ class Publication
      */
     private $titre;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Auteur", fetch="EAGER")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $ecritPar;
+
     public static function getEtats() {
         return [
             self::ETAT_BROUILLON,
@@ -67,18 +67,6 @@ class Publication
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getAuteur(): ?string
-    {
-        return $this->auteur;
-    }
-
-    public function setAuteur(string $auteur): self
-    {
-        $this->auteur = $auteur;
-
-        return $this;
     }
 
     public function getContenu(): ?string
@@ -125,6 +113,18 @@ class Publication
     public function setTitre(string $titre): self
     {
         $this->titre = $titre;
+
+        return $this;
+    }
+
+    public function getEcritPar(): ?Auteur
+    {
+        return $this->ecritPar;
+    }
+
+    public function setEcritPar(?Auteur $ecritPar): self
+    {
+        $this->ecritPar = $ecritPar;
 
         return $this;
     }
