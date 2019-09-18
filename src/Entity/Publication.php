@@ -88,7 +88,13 @@ class Publication
 
     public function setPublieeLe(?\DateTimeInterface $publieeLe): self
     {
+        if (!$publieeLe) return $this;
+
+        if ($this->etat != self::ETAT_BROUILLON) {
+            throw new \Exception('Seul un brouillon peut être publié');
+        }
         $this->publieeLe = $publieeLe;
+        $this->etat = self::ETAT_PUBLIE;
 
         return $this;
     }

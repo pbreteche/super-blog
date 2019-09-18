@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+    <table>
+        <tr>
+            <th>Titre</th>
+            <th>Publication</th>
+        </tr>
+        {% for field in form.publications %}
+          <tr>
+              <td>
+                  {{ field.vars.value.titre }}
+              </td>
+              <td>
+                  {{ form_widget(field.publieeLe) }}
+              </td>
+          </tr>
+        {% endfor %}
+    </table>
+    <button>Publier</button>
+    {{ form_end(form) }}
+{% endblock %}

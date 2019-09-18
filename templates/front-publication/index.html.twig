@@ -5,7 +5,7 @@
     <ul>
         {% for publication in publications %}
         <li>
-            <a href="{{ path('app_publication_detail', {id: publication.id}) }}">
+            <a href="{{ path('app_frontpublication_detail', {id: publication.id}) }}">
                 {{ publication.titre }}
             </a>
             <span>

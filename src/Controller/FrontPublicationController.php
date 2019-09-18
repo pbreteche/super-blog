@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PublicationController extends AbstractController
+class FrontPublicationController extends AbstractController
 {
     /**
      * @Route("/", methods="GET")
@@ -19,7 +19,7 @@ class PublicationController extends AbstractController
     {
         $publications = $repository->findPubliees();
 
-        return $this->render('publication/index.html.twig', [
+        return $this->render('front-publication/index.html.twig', [
             'publications' => $publications,
         ]);
     }
@@ -29,7 +29,7 @@ class PublicationController extends AbstractController
      */
     public function detail(Publication $publication)
     {
-        return $this->render('publication/detail.html.twig', [
+        return $this->render('front-publication/detail.html.twig', [
             'publication' => $publication
         ]);
     }
@@ -52,12 +52,12 @@ class PublicationController extends AbstractController
 
             $this->addFlash('succes', 'Merci de votre contribution!');
 
-            return $this->redirectToRoute('app_publication_detail', [
+            return $this->redirectToRoute('app_frontpublication_detail', [
                 'id' => $publication->getId()
             ], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('publication/nouveau.html.twig', [
+        return $this->render('front-publication/nouveau.html.twig', [
             'formView' => $form->createView()
         ]);
     }

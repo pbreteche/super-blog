@@ -59,4 +59,16 @@ class PublicationRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @return Publication[]
+     */
+    public function findBrouillons()
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT p FROM '.Publication::class.' p '
+            .'WHERE p.etat = \'brouillon\' '
+            .'ORDER BY p.publieeLe DESC'
+        )->getResult();
+    }
 }
