@@ -12,5 +12,7 @@
     </div>
 </article>
 
-    {{ render_esi(controller('App\\Controller\\FrontPublicationController::memeAuteur', {'publication': publication.id})) }}
+    {% if is_granted('ROLE_USER') %}
+        {{ render_esi(controller('App\\Controller\\FrontPublicationController::memeAuteur', {'publication': publication.id})) }}
+    {% endif %}
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Publication;
 use App\Form\PublicationType;
 use App\Repository\PublicationRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,6 +30,12 @@ class FrontPublicationController extends AbstractController
      */
     public function detail(Publication $publication)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        if (false) {
+            throw $this->createAccessDeniedException();
+        }
+
         return $this->render('front-publication/detail.html.twig', [
             'publication' => $publication,
         ]);
@@ -45,6 +52,7 @@ class FrontPublicationController extends AbstractController
 
     /**
      * @Route("/nouveau", methods={"GET", "POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function nouveau(Request $request)
     {

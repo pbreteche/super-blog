@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\PublicationDateType;
 use App\Repository\PublicationRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin")
+ * @IsGranted("ROLE_ADMIN")
  */
 class BackPublicationController extends AbstractController
 {
@@ -21,6 +23,8 @@ class BackPublicationController extends AbstractController
      */
     public function tableauDeBord(PublicationRepository $repository, Request $request)
     {
+        $user = $this->getUser();
+
         $publications = $repository->findBrouillons();
 
         $form = $this->createFormBuilder()
