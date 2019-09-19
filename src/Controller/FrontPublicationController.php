@@ -29,11 +29,6 @@ class FrontPublicationController extends AbstractController
      */
     public function detail(Publication $publication)
     {
-        // Sous-requête effectuée depuis le contrôleur
-        $this->forward('App\\Controller\\FrontPublicationController::memeAuteur', [
-           'publication' => $publication,
-        ]);
-
         return $this->render('front-publication/detail.html.twig', [
             'publication' => $publication,
         ]);
