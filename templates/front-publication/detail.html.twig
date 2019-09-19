@@ -12,5 +12,5 @@
     </div>
 </article>
 
-    {{ render(controller('App\\Controller\\FrontPublicationController::memeAuteur', {'publication': publication})) }}
+    {{ render_esi(controller('App\\Controller\\FrontPublicationController::memeAuteur', {'publication': publication.id})) }}
 {% endblock %}

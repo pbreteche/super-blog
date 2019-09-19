@@ -31,6 +31,16 @@ class PublicationRepository extends ServiceEntityRepository
         )->getResult();
     }
 
+    public function findPublieesTableau(): array
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT p.titre, a.nom as auteur, p.publieeLe, p.id '
+            .'FROM '.Publication::class.' p '
+            .'JOIN p.ecritPar a '
+            .'WHERE p.etat = \'publie\' '
+            .'ORDER BY p.publieeLe DESC'
+        )->getResult();
+    }
     // /**
     //  * @return Publication[] Returns an array of Publication objects
     //  */
