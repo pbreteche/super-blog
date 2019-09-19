@@ -27,12 +27,23 @@ class FrontPublicationController extends AbstractController
     /**
      * @Route("/{id}", requirements={"id":"\d+"}, methods="GET")
      */
-    public function detail(Publication $publication, PublicationRepository $repository)
+    public function detail(Publication $publication)
     {
-        $memeAuteur = $repository->findMemeAuteur($publication);
+        // Sous-requête effectuée depuis le contrôleur
+        $this->forward('App\\Controller\\FrontPublicationController::memeAuteur', [
+           'publication' => $publication,
+        ]);
 
         return $this->render('front-publication/detail.html.twig', [
             'publication' => $publication,
+        ]);
+    }
+
+    public function memeAuteur(Publication $publication, PublicationRepository $repository)
+    {
+        $memeAuteur = $repository->findMemeAuteur($publication);
+
+        return $this->render('front-publication/meme-auteur.html.twig', [
             'memeAuteur' => $memeAuteur,
         ]);
     }
