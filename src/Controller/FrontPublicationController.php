@@ -3,12 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Publication;
-use App\Form\PublicationType;
 use App\Repository\PublicationRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FrontPublicationController extends AbstractController
@@ -47,35 +43,6 @@ class FrontPublicationController extends AbstractController
 
         return $this->render('front-publication/meme-auteur.html.twig', [
             'memeAuteur' => $memeAuteur,
-        ]);
-    }
-
-    /**
-     * @Route("/nouveau", methods={"GET", "POST"})
-     * @IsGranted("ROLE_USER")
-     */
-    public function nouveau(Request $request)
-    {
-        $publication = new Publication();
-
-        $form = $this->createForm(PublicationType::class, $publication);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($publication);
-            $entityManager->flush();
-
-            $this->addFlash('succes', 'Merci de votre contribution!');
-
-            return $this->redirectToRoute('app_frontpublication_detail', [
-                'id' => $publication->getId()
-            ], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('front-publication/nouveau.html.twig', [
-            'formView' => $form->createView()
         ]);
     }
 }

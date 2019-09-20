@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Publication;
 use App\Form\PublicationDateType;
+use App\Form\PublicationType;
 use App\Repository\PublicationRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -48,6 +50,47 @@ class BackPublicationController extends AbstractController
 
         return $this->render('back-publication/tableau-de-bord.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/nouveau", methods={"GET", "POST"}, defaults={"action": "creer"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function nouveau(string $action)
+    {
+        $publication = new Publication();
+
+        return $this->forward('App\\Controller\\BackPublicationController::editer', [
+            'publication' => $publication,
+            'action' => $action
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/editer", methods={"GET", "POST"}, defaults={"action": "modifier"})
+     */
+    public function editer(Publication $publication, Request $request, string $action)
+    {
+        $form = $this->createForm(PublicationType::class, $publication, ['type_action' => $action]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($publication);
+            $entityManager->flush();
+
+            $this->addFlash('succes', 'Merci de votre contribution!');
+
+            return $this->redirectToRoute('app_frontpublication_detail', [
+                'id' => $publication->getId()
+            ], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('back-publication/formulaire.html.twig', [
+            'formView' => $form->createView(),
+            'action' => $action,
         ]);
     }
 }
