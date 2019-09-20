@@ -7,6 +7,7 @@ use App\Form\PublicationDateType;
 use App\Form\PublicationType;
 use App\Repository\PublicationRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\Request;
@@ -69,6 +70,7 @@ class BackPublicationController extends AbstractController
 
     /**
      * @Route("/{id}/editer", methods={"GET", "POST"}, defaults={"action": "modifier"})
+     * @IsGranted("PUBLICATION_EDITER", subject="publication")
      */
     public function editer(Publication $publication, Request $request, string $action)
     {
