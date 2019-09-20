@@ -25,3 +25,12 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # Bonne pratique: utiliser des interfaces
+    App\Service\AuteurCourantInterface:
+        alias: App\Service\AuteurCourant
+
+    # Moins bonne pratique: utiliser des noms arbitraires
+    # pas d'auto-liaison possible, chaque usage doit être configuré expicitement
+    auteur_courant:
+        alias: App\Service\AuteurCourant

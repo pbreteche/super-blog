@@ -6,8 +6,8 @@ use App\Entity\Publication;
 use App\Form\PublicationDateType;
 use App\Form\PublicationType;
 use App\Repository\PublicationRepository;
+use App\Service\AuteurCourantInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,9 +58,10 @@ class BackPublicationController extends AbstractController
      * @Route("/nouveau", methods={"GET", "POST"}, defaults={"action": "creer"})
      * @IsGranted("ROLE_USER")
      */
-    public function nouveau(string $action)
+    public function nouveau(string $action, AuteurCourantInterface $auteurCourant)
     {
         $publication = new Publication();
+        $publication->setEcritPar($auteurCourant->getAuteur());
 
         return $this->forward('App\\Controller\\BackPublicationController::editer', [
             'publication' => $publication,
@@ -74,7 +75,7 @@ class BackPublicationController extends AbstractController
      */
     public function editer(Publication $publication, Request $request, string $action)
     {
-        $form = $this->createForm(PublicationType::class, $publication, ['type_action' => $action]);
+        $form = $this->createForm(PublicationType::class, $publication);
 
         $form->handleRequest($request);
 
